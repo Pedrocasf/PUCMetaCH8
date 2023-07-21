@@ -1,0 +1,3 @@
+/home/pedrosf/PUCMetaCH8/build/CMakeFiles/PUCMetaCH8.dir
+/home/pedrosf/PUCMetaCH8/build/CMakeFiles/edit_cache.dir
+/home/pedrosf/PUCMetaCH8/build/CMakeFiles/rebuild_cache.dir
