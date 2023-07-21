@@ -1,1 +1,0 @@
-/usr/bin/cc CMakeFiles/PUCMetaCH8.dir/src/main.c.o CMakeFiles/PUCMetaCH8.dir/src/Chip8.c.o -o PUCMetaCH8  /usr/lib/x86_64-linux-gnu/libSDL2.so 
