@@ -3,6 +3,7 @@
 //
 
 #include "Chip8.h"
+const uint16_t MAX_ROM_SIZE = 3584;
 const uint8_t ch8_font[] = {
         0xF0, 0x90, 0x90, 0x90, 0xF0, //0
         0x20, 0x60, 0x20, 0x20, 0x70, //1
@@ -21,12 +22,16 @@ const uint8_t ch8_font[] = {
         0xF0, 0x80, 0xF0, 0x80, 0xF0, //E
         0xF0, 0x80, 0xF0, 0x80, 0x80  //F
 };
+const uint8_t FONT_LEN = 0x50;
+const uint16_t MEMORY_SIZE = 0x1000;
+const uint8_t STACK_SIZE = 0x10;
+const uint8_t REGISTERS_COUNT = 0x10;
 void build_ch8_vm_state(Chip8_VM_state** state, char* rom_name){
     *state = (Chip8_VM_state*)calloc(1,sizeof(Chip8_VM_state));
-    (*state)->memory = calloc(4096, sizeof(uint8_t));
-    (*state)->stack = calloc(16, sizeof(uint16_t));
-    (*state)->v = calloc(16, sizeof(uint8_t));
-    void* result = memcpy((*state)->memory, ch8_font, 80);
+    (*state)->memory = calloc(MEMORY_SIZE, sizeof(uint8_t));
+    (*state)->stack = calloc(STACK_SIZE, sizeof(uint16_t));
+    (*state)->v = calloc(REGISTERS_COUNT, sizeof(uint8_t));
+    void* result = memcpy((*state)->memory, ch8_font, FONT_LEN);
     if (result < 0){
         printf("Failed to copy font, continuing, games might be broken!\n");
     }
@@ -39,7 +44,7 @@ void build_ch8_vm_state(Chip8_VM_state** state, char* rom_name){
         fseek(rom_ptr,0L,SEEK_END);
         uint64_t size = ftell(rom_ptr);
         fseek(rom_ptr, 0L, SEEK_SET);
-        if(size < (4096-512)){
+        if(size <= MAX_ROM_SIZE){
             uint32_t result2 = fread((*state)->memory+512, sizeof(uint8_t), size, rom_ptr);
             if (result2 != size){
                 printf("Read file is %d bytes long, but %d bytes were read\n",size, result2);
